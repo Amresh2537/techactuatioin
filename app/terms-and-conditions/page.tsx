@@ -1,0 +1,18 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { LegalPage } from "../legal-page";
+export const metadata: Metadata = {
+  title: "Terms & Conditions – Tech Actuation Industries",
+  description: "Terms for using the Tech Actuation Industries website, submitting product enquiries and requesting customized industrial actuation solutions.",
+};
+export default function TermsPage() {
+  return <LegalPage title="Terms & Conditions" introduction="Information about using our website and enquiring about our industrial actuation solutions." sections={[
+    { id: "website-purpose", title: "Website purpose", content: <p>This website introduces Tech Actuation Industries and its products, including screw jacks, hydraulic cylinders, gearboxes and industrial accessories. It helps you share requirements and request a technical discussion or quotation.</p> },
+    { id: "product-information", title: "Product information & suitability", content: <><p>Product images, diagrams and descriptions illustrate available product types and configurations. The exact dimensions, materials, load capacity, stroke, mounting arrangements and other specifications must be confirmed for your application.</p><p>A selection made in the requirement form expresses your requested configuration. It does not confirm engineering suitability, product availability or a guaranteed performance rating. Discuss operating conditions and installation requirements with our team before placing an order or using a product.</p></> },
+    { id: "enquiries-and-quotes", title: "Enquiries, quotations & orders", content: <><p>Submitting a form or receiving an enquiry reference acknowledges your enquiry. It does not create an order, reserve stock or confirm a price or delivery date.</p><p>Prices, taxes, payment terms, delivery arrangements, warranty terms and other commercial conditions will be set out in the applicable written quotation or order confirmation. Review and agree those details with our team before proceeding.</p></> },
+    { id: "your-information", title: "Information you provide", content: <><p>Please provide accurate contact details and application information. Tell us about relevant loads, operating conditions and mounting needs so our team can discuss a suitable solution. Do not submit confidential third-party information unless you are authorized to share it.</p><p>How enquiry details are collected and used is explained in our <Link href="/privacy-policy">Privacy Policy</Link>.</p></> },
+    { id: "acceptable-use", title: "Use of website content", content: <p>You may use this website to research products and contact our team for legitimate business enquiries. Do not interfere with the website, attempt unauthorized access, submit spam or impersonate another person. Obtain permission before republishing our branding or presenting website materials as your own.</p> },
+    { id: "external-services", title: "External links & availability", content: <p>Links to services such as WhatsApp and Google Maps open services operated by other organizations. Their terms and privacy practices apply when you use them. Website access, third-party links and enquiry submission may occasionally be interrupted; if you do not receive a submission confirmation, contact our team directly.</p> },
+    { id: "updates-to-terms", title: "Updates to these terms", content: <p>These website terms may be updated as our website and services change. The date above identifies this version. Terms agreed in a specific written quotation or order confirmation govern that transaction; these website terms do not replace them.</p> },
+  ]} />;
+}

@@ -4,6 +4,15 @@ const DEFAULT_SCRIPT_URL = "https://script.google.com/a/macros/timeequipment.co.
 
 export async function POST(request: Request) {
   const json = (body: object, status = 200) => Response.json(body, { status, headers: { "Cache-Control": "no-store" } });
+  const fail = (code: string, detail: string) => {
+    // Log only integration diagnostics; never log the enquiry or credentials.
+    console.error(`[requirements] ${code}: ${detail}`);
+    return json({
+      error: "We couldn’t confirm that your requirement was saved. Your selections are still here. Please retry, or call +91 9311742040.",
+      code,
+      ...(process.env.NODE_ENV === "development" ? { detail } : {}),
+    }, 502);
+  };
   let input: Record<string, unknown>;
   try {
     if (Number(request.headers.get("content-length")) > 16000) return json({ error: "Your requirement is too long. Please shorten the notes." }, 413);
@@ -28,11 +37,20 @@ export async function POST(request: Request) {
       cache: "no-store",
       signal: AbortSignal.timeout(25000),
     });
-    if (!response.ok) throw new Error("Integration unavailable");
-    const result = await response.json();
-    if (result.success !== true || typeof result.enquiryId !== "string" || !/^SJ-[A-Z0-9-]{8,64}$/i.test(result.enquiryId)) throw new Error("Submission not acknowledged");
+    if (!response.ok) return fail("UPSTREAM_HTTP_ERROR", `Google returned HTTP ${response.status}. Check web-app deployment access.`);
+    let result;
+    try { result = await response.json(); }
+    catch { return fail("UPSTREAM_NOT_JSON", "Google returned a page instead of JSON. Check doPost deployment and web-app access."); }
+    if (result?.success !== true) {
+      const reason = typeof result?.error === "string" ? result.error : "";
+      if (reason.includes("headers do not match")) return fail("SHEET_HEADERS_MISMATCH", "Enquiries headers do not match the deployed script. Deploy the updated Code.gs, which accepts Orientation and Screw Orientation in column D.");
+      if (reason.includes("Run setup") || reason.includes("target Google Sheet")) return fail("SHEET_SETUP_REQUIRED", "Run setup() in the Sheet-bound Apps Script editor, then update its deployment.");
+      if (reason.includes("Invalid website credentials")) return fail("SCRIPT_SECRET_MISMATCH", "The server secret and Apps Script WEBSITE_SECRET do not match.");
+      return fail("UPSTREAM_REJECTED", "Apps Script did not accept the enquiry. Check its execution logs.");
+    }
+    if (typeof result.enquiryId !== "string" || !/^SJ-[A-Z0-9-]{8,64}$/i.test(result.enquiryId)) return fail("INVALID_CONFIRMATION", "Apps Script returned no valid enquiry reference.");
     return json({ success: true, enquiryId: result.enquiryId });
   } catch {
-    return json({ error: "We couldn’t confirm that your requirement was saved. Your selections are still here. Please retry, or call +91 9311742040." }, 502);
+    return fail("INTEGRATION_CONNECTION_FAILED", "Could not reach Apps Script or the request timed out. Check server connectivity and endpoint configuration.");
   }
 }

@@ -22,3 +22,9 @@ Accessories, special options, optional stroke length and application notes are s
 The provided deployment is configured as the default server endpoint. Until the script is updated and callable by the Next.js server, saving will return a visible error rather than showing a false success.
 
 References: [Apps Script web apps](https://developers.google.com/apps-script/guides/web), [Content Service](https://developers.google.com/apps-script/guides/content).
+
+## Fix for the existing Orientation header
+
+The existing sheet uses `Orientation` in column D. The updated script accepts both `Orientation` and `Screw Orientation`, and ignores casing, extra whitespace and byte-order marks in header labels. It does not rename headers or change existing rows. Other columns are still checked before appending, so a different column order cannot silently put enquiry details into the wrong columns.
+
+To activate this fix: replace `Code.gs` in the original Apps Script project with this version, then **Deploy → Manage deployments → Edit → New version → Deploy**. Saving the source alone does not update an existing versioned deployment. Keep the deployment URL unchanged; then retry the website form.

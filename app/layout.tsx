@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Header, Footer } from "./ui";
 import { FloatingWhatsApp } from "./floating-whatsapp";
 import "./globals.css";
@@ -9,5 +10,5 @@ export const metadata: Metadata = {
  icons: { icon: "/icon.svg" },
 };
 export default function RootLayout({ children }: {children: React.ReactNode}) {
- return <html lang="en"><body><a className="skip-link" href="#main">Skip to content</a><Header />{children}<Footer /><FloatingWhatsApp /></body></html>;
+ return <html lang="en"><body><a className="skip-link" href="#main">Skip to content</a><Header />{children}<Footer /><Suspense fallback={null}><FloatingWhatsApp /></Suspense></body></html>;
 }

@@ -1,4 +1,11 @@
+"use client";
+
+import { usePathname } from "next/navigation";
+
 export function FloatingWhatsApp() {
+  const pathname = usePathname();
+  if (pathname === "/requirement" || pathname.startsWith("/requirement/")) return null;
+
   return (
     <a
       className="whatsapp-contact-button"

@@ -96,3 +96,35 @@ test('Apps Script writes the existing 13-column schema, escapes cells, and dedup
   assert.equal(rows.length, 2); assert.equal(released, 2);
   assert.throws(() => sandbox.submitEnquiry({ ...data, capacity: 'Other', customCapacity: '0' }), /custom capacity/);
 });
+
+test('Apps Script accepts the real Orientation header without renaming existing columns', () => {
+  const headers = ['Submitted At', 'Enquiry ID', 'Screw Jack Type', 'Orientation', 'Head Type', 'Load Capacity (Ton)', 'Quantity', 'Customer Name', 'Company Name', 'Mobile / WhatsApp', 'Email', 'Special Requirements', 'Status'];
+  const sheet = { getLastRow: () => 2, getRange: () => ({ getValues: () => [headers] }) };
+  const sandbox = {
+    PropertiesService: { getScriptProperties: () => ({ getProperty: () => 'test-sheet' }) },
+    SpreadsheetApp: { openById: () => ({ getSheetByName: () => sheet }) },
+  };
+  vm.createContext(sandbox);
+  vm.runInContext(fs.readFileSync(new URL('../integrations/google-apps-script/Code.gs', import.meta.url), 'utf8'), sandbox);
+  assert.equal(sandbox.getEnquiriesSheet_(), sheet);
+  assert.equal(headers[3], 'Orientation');
+  headers[0] = '\uFEFF Submitted   At ';
+  headers[3] = ' orientation ';
+  assert.equal(sandbox.getEnquiriesSheet_(), sheet);
+  headers[3] = 'Screw Orientation';
+  assert.equal(sandbox.getEnquiriesSheet_(), sheet);
+  headers[3] = 'Unrelated column';
+  assert.throws(() => sandbox.getEnquiriesSheet_(), /headers do not match/);
+});
+
+test('API identifies header mismatch without treating it as a successful save', async () => {
+  const original = globalThis.fetch;
+  try {
+    globalThis.fetch = async () => Response.json({ success: false, error: 'Enquiries sheet headers do not match. Existing data was left unchanged.' });
+    const response = await POST(request({ ...valid(), requestId }));
+    assert.equal(response.status, 502);
+    const result = await response.json();
+    assert.equal(result.code, 'SHEET_HEADERS_MISMATCH');
+    assert.equal('enquiryId' in result, false);
+  } finally { globalThis.fetch = original; }
+});

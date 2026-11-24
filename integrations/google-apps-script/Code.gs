@@ -54,7 +54,16 @@ function getEnquiriesSheet_() {
     sheet.setColumnWidth(12, 300);
   } else {
     const existing = sheet.getRange(1, 1, 1, HEADERS.length).getValues()[0];
-    if (HEADERS.some(function (header, index) { return existing[index] !== header; })) throw new Error('Enquiries sheet headers do not match. Existing data was left unchanged.');
+    const normalizeHeader = function (value) {
+      return String(value == null ? '' : value).replace(/\uFEFF/g, '').trim().replace(/\s+/g, ' ').toLowerCase();
+    };
+    const mismatch = HEADERS.some(function (header, index) {
+      const actual = normalizeHeader(existing[index]);
+      // The original sheet uses "Orientation"; both headings describe column D.
+      if (index === 3 && (actual === 'orientation' || actual === 'screw orientation')) return false;
+      return actual !== normalizeHeader(header);
+    });
+    if (mismatch) throw new Error('Enquiries sheet headers do not match. Existing data was left unchanged.');
   }
   return sheet;
 }

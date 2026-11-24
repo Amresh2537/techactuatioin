@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Arrow, Icon } from "../icons";
 import { ACCESSORIES, CAPACITIES, HEADS, initialConfiguration, SPECIAL_OPTIONS, STEPS, summaryRows, TYPES, validateStep, type Configuration } from "./configuration";
 
@@ -28,6 +28,13 @@ export function RequirementBuilder() {
   const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
   const [enquiryId, setEnquiryId] = useState("");
+  const successHeadingRef = useRef<HTMLHeadingElement>(null);
+  useEffect(() => {
+    if (!enquiryId) return;
+    const heading = successHeadingRef.current;
+    heading?.focus({ preventScroll: true });
+    heading?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center" });
+  }, [enquiryId]);
   const requestId = useRef("");
   const sectionRefs = useRef<(HTMLFieldSetElement | null)[]>([]);
   const [errorSection, setErrorSection] = useState<number | null>(null);
@@ -69,7 +76,7 @@ export function RequirementBuilder() {
         signal: AbortSignal.timeout(35000),
       });
       const result = await response.json();
-      if (!response.ok || result.success !== true || typeof result.enquiryId !== "string") throw new Error(result.error || "We couldn’t save your requirement. Please try again.");
+      if (!response.ok || result.success !== true || typeof result.enquiryId !== "string") throw new Error(process.env.NODE_ENV === "development" && result.detail ? `${result.error} (${result.detail})` : result.error || "We couldn’t save your requirement. Please try again.");
       setEnquiryId(result.enquiryId);
     } catch (failure) {
       setError(failure instanceof Error && failure.name !== "TimeoutError" ? failure.message : "The connection timed out. Your selections are still here; please try again.");
@@ -113,13 +120,19 @@ export function RequirementBuilder() {
     </div>;
   }
 
-  if (enquiryId) return <section className="section req-success"><div className="container"><div className="req-success-card">
-    <span className="req-success-icon" aria-hidden="true">✓</span>
-    <div className="eyebrow">REQUIREMENT RECEIVED</div><h2>Thank you, {data.name}.</h2>
-    <p>Your requirement has been saved. Keep your enquiry reference for your discussion with our team.</p>
-    <strong className="req-reference">{enquiryId}</strong>
-    <dl className="req-summary-list">{rows.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
+  if (enquiryId) return <section className="section req-success"><div className="container"><div className="req-success-card req-greeting">
+    <div className="req-greeting-top">
+      <span className="req-greeting-check" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="m8 16 5 5 11-11" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" /></svg></span>
+      <div className="eyebrow">SUCCESSFULLY SUBMITTED</div>
+      <h2 ref={successHeadingRef} tabIndex={-1}>Thank you, {data.name.trim()}!</h2>
+      <p className="req-greeting-message" role="status">We’ve received your requirement.</p>
+      <p>Our team will review your specifications and contact you to discuss the next steps. We look forward to engineering a solution with you.</p>
+      <div className="req-greeting-signature">— Team Tech Actuation Industries</div>
+    </div>
+    <div className="req-reference-box"><span>Your enquiry reference</span><strong>{enquiryId}</strong><small>Keep this reference for your discussion with our team.</small></div>
+    <details className="req-submitted-details"><summary>View your submitted configuration</summary><dl className="req-summary-list">{rows.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl></details>
     <div className="actions"><Link className="button" href="/">Back to Home <Arrow /></Link><button className="button req-secondary" onClick={() => { setData({ ...initialConfiguration, accessories: [], specialOptions: [] }); setEnquiryId(""); requestId.current = ""; setError(""); setErrorSection(null); window.scrollTo({ top: 0, behavior: "smooth" }); }}>New Requirement</button></div>
+    <p className="req-greeting-contact">Need to add something? <a href="tel:+919311742040">Call +91 9311742040</a></p>
   </div></div></section>;
 
   return <section className="req-section"><div className="container">
