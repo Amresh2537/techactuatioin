@@ -1,0 +1,19 @@
+export const address = "Shop No. 4, 5, Bhoopgarh, Neemka, Near Indian Oil Petrol Pump, Opp. Swastik Lazer Company, Tigaon Road, Ballabhgarh, Faridabad, Haryana – 121004, India.";
+export const products = [
+ { name: "Translating Type Screw Jacks", category: "MECHANICAL ACTUATION", slug: "translating-screw-jacks", image: "translating-upward.webp", description: "Translating screw jacks for mechanical lifting and linear positioning. Discuss upright or inverted arrangements with our team.", variants: ["translating-upward.webp", "translating-inverted.webp", "translating-diagram.webp"], labels: ["Upright configuration", "Inverted configuration", "Configuration diagram"] },
+ { name: "Rotating Type Screw Jacks", category: "MECHANICAL ACTUATION", slug: "rotating-screw-jacks", image: "rotating-upward.webp", description: "Rotating screw jack configurations for industrial lifting and positioning requirements. Share your application to discuss a suitable arrangement.", variants: ["rotating-upward.webp", "rotating-inverted.webp", "rotating-diagram.webp"], labels: ["Upright configuration", "Inverted configuration", "Configuration diagram"] },
+ { name: "Industrial Hydraulic Cylinders", category: "HYDRAULIC SOLUTIONS", slug: "hydraulic-cylinders", image: "", description: "Industrial hydraulic cylinders and customized actuation solutions. Speak with our team about load capacity, stroke length and mounting requirements.", variants: [], labels: [] },
+ { name: "Bevel Gear Boxes", category: "POWER TRANSMISSION", slug: "bevel-gearbox", image: "bevel-gearbox.webp", description: "Industrial bevel gear boxes for right-angle power transmission. Discuss integration with your mechanical actuation system.", variants: ["bevel-gearbox.webp", "gearbox-and-motor.webp"], labels: ["Bevel gear box", "Gearbox and motor"] },
+ { name: "Screw Jack Head Options", category: "CONFIGURED FOR YOU", slug: "accessories#head-options", image: "head-1.webp", description: "Head and mounting options for your application.", variants: [], labels: [] },
+ { name: "Industrial Accessories", category: "COMPLETE YOUR SYSTEM", slug: "accessories", image: "hand-wheel.webp", description: "Accessories and components for industrial screw jack systems, including hand wheels, couplings, motors, limit switches and bellows boots.", variants: ["hand-wheel.webp", "coupling.webp", "motor.webp", "gearbox-and-motor.webp", "limit-switch.webp", "bellow-boot.webp"], labels: ["Hand wheel", "Coupling", "Electric motor", "Geared motor", "Limit switch", "Bellows boot"] },
+];
+export const seoTitles: Record<string,string> = {
+ about: "Industrial Actuation Solutions Manufacturer in Faridabad",
+ "worm-gear-screw-jacks": "Worm Gear Screw Jacks Manufacturer & Supplier in India",
+ "translating-screw-jacks": "Translating Screw Jack Manufacturer in India",
+ "rotating-screw-jacks": "Rotating Screw Jack Manufacturer in India",
+ "hydraulic-cylinders": "Industrial Hydraulic Cylinder Manufacturer in Faridabad",
+ accessories: "Industrial Screw Jack Accessories & Components",
+ "bevel-gearbox": "Industrial Bevel Gear Box Supplier",
+ contact: "Contact Tech Actuation Industries – Faridabad",
+};

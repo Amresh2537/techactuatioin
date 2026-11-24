@@ -1,69 +1,14 @@
 import Image from "next/image";
-
+import Link from "next/link";
+import { Arrow, Icon } from "./icons";
+import { ProductGrid, ContactSection, CustomSection } from "./ui";
 export default function Home() {
-  return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+ return <main id="main">
+ <section className="hero"><Image src="/images/Industrial Actuators and Mechanical Components-6.png" alt="Blue screw jacks, gearboxes and industrial motion components" fill preload sizes="100vw" className="hero-image" /><div className="hero-shade" /><div className="container hero-inner"><div className="eyebrow light">INNOVATE <i /> AUTOMATE <i /> ELEVATE</div><h1>Precision Engineering.<br /><span>Powerful Motion.</span></h1><p>Manufacturer of Worm Gear Screw Jacks, Industrial Hydraulic Cylinders and Customized Actuation Solutions in India.</p><div className="actions"><a className="button" href="#products">Explore Products <Arrow /></a><a className="button outline" href="#contact">Request a Quote <Arrow /></a></div><div className="hero-caption"><span className="status-dot" /> ENGINEERED IN INDIA. BUILT FOR INDUSTRY.</div></div><div className="hero-bottom"><div className="container"><span>PRECISION IN EVERY COMPONENT</span><a href="#products">DISCOVER OUR RANGE <span>↓</span></a></div></div></section>
+ <section className="section products-section" id="products"><div className="container"><div className="section-heading"><div><div className="eyebrow">OUR PRODUCT RANGE <i /></div><h2>Engineered for Motion.<br />Built for Industry.</h2></div><p>Industrial actuation products, mechanical lifting solutions and accessories for diverse engineering applications.</p></div><ProductGrid /><div className="product-note"><span><Icon name="settings" /> The right configuration for your application.</span><Link href="/contact">Discuss your requirements <Arrow /></Link></div></div></section>
+ <section className="about section" id="about"><div className="container about-grid"><div className="about-visual"><Image src="/images/Precision Components in a Modern CNC Workshop-3.png" alt="Industrial components in a modern engineering workshop" fill sizes="(max-width: 760px) 100vw, 50vw" /><div className="image-caption"><span>TECH ACTUATION INDUSTRIES</span><strong>Engineering motion.<br />Enabling possibilities.</strong></div></div><div className="about-copy"><div className="eyebrow">ENGINEERING WITH PURPOSE <i /></div><h2>Solutions built around<br />your requirements.</h2><p>Tech Actuation Industries is an industrial actuation solutions manufacturer based in Faridabad, Haryana, India. We specialize in worm gear screw jacks, industrial hydraulic cylinders and customized mechanical actuation solutions.</p><p>Our focus is on precision engineering, robust product design and application-specific solutions for industrial machinery and automation requirements.</p><Link href="/about" className="text-link">Get to know us <Arrow /></Link><div className="location-tag"><Icon name="pin" /><span>FARIDABAD, HARYANA <small>Manufactured in India. Made for your application.</small></span></div></div></div></section>
+ <section className="why"><Image src="/images/Precision Gearbox Inspection-5.png" alt="Precision industrial gearbox engineering" fill sizes="100vw" className="why-image" /><div className="container why-inner"><div className="eyebrow light">WHY CHOOSE US <i /></div><h2>Precision in<br />every component.</h2><div className="benefits">{[["target","Precision Engineering","Carefully engineered for accurate, reliable motion."],["shield","Robust Industrial Design","Built around the demands of industrial applications."],["settings","Customized Solutions","Configurations shaped around your requirements."],["support","Application-Focused Support","Technical discussions that start with your application."]].map(([icon,title,body])=><div className="benefit" key={title}><Icon name={icon} /><div><h3>{title}</h3><p>{body}</p></div></div>)}</div></div></section>
+ <section className="section applications" id="industries"><div className="container"><div className="section-heading"><div><div className="eyebrow">INDUSTRIAL APPLICATIONS <i /></div><h2>Powering industrial motion.</h2></div><p>From lifting and positioning to automation, engineering solutions that keep industry moving.</p></div><div className="industry-grid">{[["factory","Industrial Machinery"],["boxes","Material Handling"],["lift","Mechanical Lifting"],["target","Precision Positioning"],["automation","Factory Automation"]].map(([icon,title],i)=><div className="industry" key={title}><span className="industry-number">0{i+1}</span><Icon name={icon}/><h3>{title}</h3></div>)}</div></div></section>
+ <CustomSection /><ContactSection />
+ </main>;
 }
