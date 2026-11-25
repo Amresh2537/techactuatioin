@@ -10,6 +10,11 @@ export function Icon({name}:{name:string}) {
  boxes:<><path d="m12 2 6 3-6 3-6-3 6-3Zm-6 3v6l6 3 6-3V5M6 11l-5 3 6 3 5-3 5 3 6-3-5-3M1 14v6l6 3 5-3 5 3 6-3v-6M7 17v6m5-9v6m5-3v6M12 8v6"/></>,
  lift:<><path d="M3 21h18M6 21V8m12 13V8M3 8h18M7 3h10v5H7zM9 13h6v5H9zM12 8v5"/></>,
  automation:<><circle cx="7" cy="11" r="3"/><circle cx="16" cy="5" r="2"/><path d="m8 8 6-4m-5 9 6-6m3-2 4 5-3 3-3-3M7 14l-3 6h9l-3-6M2 23h13"/></>,
+ chevron:<path d="m6 9 6 6 6-6"/>,
+ chat:<path d="M21 11.5a9 9 0 0 1-13.3 7.9L3 21l1.6-4.7A9 9 0 1 1 21 11.5Z"/>,
+ mail:<><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 6 10 7L22 6"/></>,
+ globe:<><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/></>,
+ receipt:<><path d="M5 2h14v20l-3-2-4 2-4-2-3 2V2Z"/><path d="M8 7h8M8 11h8M8 15h5"/></>,
  phone:<path d="m7 2 3 5-3 3c2 4 3 5 7 7l3-3 5 3-2 5C10 23 1 14 2 4Z"/>,
  };
  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{paths[name]||paths.settings}</svg>;
