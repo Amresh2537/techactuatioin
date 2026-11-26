@@ -7,9 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test:requirements": "node --test tests/requirements.test.mjs"
+    "test:requirements": "node --test tests/requirements.test.mjs",
+    "test:blog": "node --experimental-strip-types --test tests/blog.test.mjs"
   },
   "dependencies": {
+    "mongodb": "^7.9.1",
     "next": "16.4.6",
     "react": "19.3.0",
     "react-dom": "19.3.0"

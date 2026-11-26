@@ -8,7 +8,7 @@ import { companyContact, products } from "./data";
 import { Arrow, Icon } from "./icons";
 
 const navigation = [
-  ["Home", "/"], ["Industries", "/#industries"], ["About Us", "/about"], ["Contact Us", "/contact"],
+  ["Home", "/"], ["Industries", "/#industries"], ["About Us", "/about"], ["Blog", "/blog"], ["Contact Us", "/contact"],
 ];
 
 export function SiteHeader() {
